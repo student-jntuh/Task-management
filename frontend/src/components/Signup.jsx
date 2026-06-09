@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api'
 import '../styles/Signup.css'
 
 function Signup() {
@@ -45,7 +45,7 @@ function Signup() {
     setLoading(true)
 
     try {
-      const response = await axios.post('/api/auth/signup', formData)
+      const response = await api.post('/auth/signup', formData)
 
       if (response.status === 201) {
         alert('Signup successful! Please login.')

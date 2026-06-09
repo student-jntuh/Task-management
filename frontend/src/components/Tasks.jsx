@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api'
 import '../styles/Tasks.css'
 
 function Tasks() {
@@ -19,7 +19,7 @@ function Tasks() {
     // fetch tasks for this user
     const fetchTasks = async (uname) => {
       try {
-        const res = await axios.get('/api/tasks', { params: { username: uname } })
+        const res = await api.get('/tasks', { params: { username: uname } })
         if (Array.isArray(res.data)) {
           // normalize backend _id to id for frontend convenience
           const normalized = res.data.map(t => ({ ...t, id: t._id }))
@@ -48,7 +48,7 @@ function Tasks() {
     if (!text) return
     const uname = username || localStorage.getItem('username') || 'Guest'
     // persist to backend
-    axios.post('/api/tasks', { username: uname, text })
+    api.post('/tasks', { username: uname, text })
       .then(res => {
         if (res.status === 201) {
           const added = { ...res.data, id: res.data._id }
@@ -66,7 +66,7 @@ function Tasks() {
 
   const handleRemove = (id) => {
     // delete from backend then update local state
-    axios.delete(`/api/tasks/${id}`)
+    api.delete(`/tasks/${id}`)
       .then(() => setTasks(prev => prev.filter(t => t.id !== id)))
       .catch(() => setTasks(prev => prev.filter(t => t.id !== id)))
   }
@@ -75,7 +75,7 @@ function Tasks() {
     const task = tasks.find(t => t.id === id)
     if (!task) return
     const updated = { completed: !task.completed }
-    axios.put(`/api/tasks/${id}`, updated)
+    api.put(`/tasks/${id}`, updated)
       .then(res => {
         const updatedTask = { ...res.data, id: res.data._id }
         setTasks(prev => prev.map(t => t.id === id ? updatedTask : t))

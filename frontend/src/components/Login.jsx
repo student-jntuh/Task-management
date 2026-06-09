@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api'
 import '../styles/Login.css'
 
 function Login() {
@@ -32,7 +32,7 @@ function Login() {
     setLoading(true)
 
     try {
-      const response = await axios.post('/api/auth/login', formData)
+      const response = await api.post('/auth/login', formData)
 
       if (response.status === 200) {
         // store username and token for simple session persistence
