@@ -15,7 +15,7 @@ connectDB()
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://task-management-1-b9x7.onrender.com'],
+  origin: ['http://localhost:5173', 'https://task-management-eosin-nine.vercel.app'],
   credentials: true
 }))
 app.use(express.json())
